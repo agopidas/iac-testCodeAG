@@ -1,0 +1,20 @@
+kops create cluster \
+  --name=kops.agfullstack.tech \
+  --state=s3://agfullstack.tech \
+  --authorization RBAC \
+  --zones=us-east-1d,us-east-1f \
+  --node-count=2 \
+  --node-size=t2.micro \
+  --master-size=t2.micro \
+  --master-count=1 \
+  --dns-zone=kops.agfullstack.tech \
+  --out=~/Desktop/Dev/Terraform/devopsinuse_terraform/ \
+  --target=terraform \
+  --ssh-public-key=~/.ssh/devopsinuse.pub
+
+
+kops update cluster kops.agfullstack.tech \
+  --state=s3://agfullstack.tech \
+  --out=~/Desktop/Dev/Terraform/devopsinuse_terraform/ \
+  --target=terraform \
+  --ssh-public-key=~/.ssh/devopsinuse.pub
