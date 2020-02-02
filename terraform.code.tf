@@ -5,10 +5,10 @@
 variable "AWS_ACCESS_KEY" {}
 variable "AWS_SECRET_KEY" {}
 variable "AWS_REGION" {
-  default = "us-east-1"
+  default = "us-east-2"
 }
 variable "AMIS" {
-  type = "map"
+  type = map
   default = {
     # *******************************************
     # https://cloud-images.ubuntu.com/locator/ec2/
@@ -20,7 +20,7 @@ variable "AMIS" {
     #   AMI shortcut (AMAZON MACHINE IMAGE)
     #
     # *******************************************
-    us-east-1 = "ami-0b553b4cb25d77416"
+    us-east-2 = "ami-08cec7c429219e339"
   }
 }
  
@@ -28,9 +28,9 @@ variable "AMIS" {
 # provider.tf
 # ************************
 provider "aws" {
-    access_key = "${var.AWS_ACCESS_KEY}"
-    secret_key = "${var.AWS_SECRET_KEY}"
-    region = "${var.AWS_REGION}"
+    access_key = var.AWS_ACCESS_KEY
+    secret_key = var.AWS_SECRET_KEY
+    region = var.AWS_REGION
 }
  
  
@@ -38,8 +38,8 @@ provider "aws" {
 # instance.tf
 # ************************
 resource "aws_instance" "AG_DEVOPSINUSE" {
-  ami = "${lookup(var.AMIS, var.AWS_REGION)}"
-  tags { Name = "AG" }
+  ami = lookup(var.AMIS, var.AWS_REGION)
+  tags = {Name = "AG"}
   instance_type = "t2.micro"
   provisioner "local-exec" {
      command = "echo ${aws_instance.AG_DEVOPSINUSE.private_ip} >> private_ips.txt"
